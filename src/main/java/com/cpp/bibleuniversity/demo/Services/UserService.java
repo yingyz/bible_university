@@ -2,7 +2,10 @@ package com.cpp.bibleuniversity.demo.Services;
 
 import com.cpp.bibleuniversity.demo.Exceptions.Exception.DatabaseNotFoundException;
 import com.cpp.bibleuniversity.demo.Exceptions.Exception.DuplicateAccountException;
+import com.cpp.bibleuniversity.demo.Models.Role;
 import com.cpp.bibleuniversity.demo.Models.User;
+import com.cpp.bibleuniversity.demo.Models.UserRole;
+import com.cpp.bibleuniversity.demo.Repository.RoleRepo;
 import com.cpp.bibleuniversity.demo.Repository.UserRepo;
 import com.cpp.bibleuniversity.demo.Requests.UserRequest.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -25,6 +30,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private RoleRepo roleRepo;
+
+
+
     public User saveUser(SignUpRequest signUpRequest) {
         try {
             User user = new User();
@@ -33,6 +43,14 @@ public class UserService implements UserDetailsService {
             user.setFirstname(signUpRequest.getFirstname());
             user.setLastname(signUpRequest.getLastname());
             user.setChinesename(signUpRequest.getChinesename());
+            Set<UserRole> set = new HashSet<>();
+
+            Role role = roleRepo.findRoleByName("STUDENT");
+           if (role == null) {
+               throw new DatabaseNotFoundException("Role type not found in database." );
+            }
+            set.add(new UserRole(user, role));
+            user.setUserRoles(set);
 
             return userRepo.save(user);
         } catch (DatabaseNotFoundException e) {
