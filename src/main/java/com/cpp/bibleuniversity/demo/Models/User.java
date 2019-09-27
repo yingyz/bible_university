@@ -1,5 +1,6 @@
 package com.cpp.bibleuniversity.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,25 +19,29 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email(message = "Username needs to be an email")
-    @NotBlank(message = "username is required")
+    @Email(message = "您的用户名必须为电子邮箱")
+    @NotBlank(message = "请填写您的用户名")
     @Column(unique = true)
     private String username;
 
-    @NotBlank(message = "Password field is required")
+    @NotBlank(message = "请填写您的密码")
     private String password;
 
-    @NotBlank(message = "First name field is required")
+    @NotBlank(message = "请填写您的英文名")
     private String firstname;
 
-    @NotBlank(message = "Last name field is required")
+    @NotBlank(message = "请填写您的英文姓")
     private String lastname;
 
-    @NotBlank(message = "Chinese name field is required")
+    @NotBlank(message = "请填写您的中文姓名")
     private String chinesename;
 
     private Date create_At;
     private Date update_At;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private UserInfo userInfo;
 
     public User(){}
 
@@ -104,6 +109,14 @@ public class User implements UserDetails {
 
     public void setUpdate_At(Date update_At) {
         this.update_At = update_At;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @PrePersist

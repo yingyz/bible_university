@@ -3,19 +3,19 @@ package com.cpp.bibleuniversity.demo.Requests.UserRequest;
 import javax.validation.constraints.NotBlank;
 
 public class SignUpRequest {
-    @NotBlank(message = "Email cannot be blank")
+    @NotBlank(message = "请填写您的电子邮箱")
     private String username;
 
-    @NotBlank(message = "Password cannot be blank")
+    @NotBlank(message = "请填写您的密码")
     private String password;
 
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank(message = "请填写您的英文名")
     private String firstname;
 
-    @NotBlank(message = "Last name cannot be blank")
+    @NotBlank(message = "请填写您的英文姓")
     private String lastname;
 
-    @NotBlank(message = "Chinese name cannot be blank")
+    @NotBlank(message = "请填写您的中文姓名")
     private String chinesename;
 
     public String getUsername() {
