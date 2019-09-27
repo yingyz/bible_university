@@ -43,6 +43,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private UserInfo userInfo;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private StudentAssessment studentAssessment;
+
     public User(){}
 
     public Long getId() {
@@ -117,6 +121,14 @@ public class User implements UserDetails {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public StudentAssessment getStudentAssessment() {
+        return studentAssessment;
+    }
+
+    public void setStudentAssessment(StudentAssessment studentAssessment) {
+        this.studentAssessment = studentAssessment;
     }
 
     @PrePersist

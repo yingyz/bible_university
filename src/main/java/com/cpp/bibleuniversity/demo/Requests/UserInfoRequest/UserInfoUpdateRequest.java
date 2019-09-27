@@ -1,7 +1,6 @@
 package com.cpp.bibleuniversity.demo.Requests.UserInfoRequest;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 public class UserInfoUpdateRequest {
 
