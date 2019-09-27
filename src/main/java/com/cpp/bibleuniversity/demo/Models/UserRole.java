@@ -18,9 +18,6 @@ public class UserRole {
     private User user;
 
 
-
-
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;

@@ -1,6 +1,7 @@
 package com.cpp.bibleuniversity.demo.Security;
 
 import com.cpp.bibleuniversity.demo.Models.User;
+import com.cpp.bibleuniversity.demo.Models.UserRole;
 import com.cpp.bibleuniversity.demo.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,7 +40,10 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 User userDetails = userService.loadUserById(userId);
 
                 List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-               // authorities.add(new SimpleGrantedAuthority(userDetails.getRole().getName()));
+
+                for (UserRole userRole: userDetails.getUserRoles()){
+                    authorities.add(new SimpleGrantedAuthority(userRole.getRole().getName()));
+                }
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
 

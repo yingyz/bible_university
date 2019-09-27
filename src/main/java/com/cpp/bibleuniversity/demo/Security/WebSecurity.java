@@ -57,7 +57,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(SIGN_UP_URLS)
                 .permitAll()
-                //.antMatchers(ADMIN_URLS).hasAnyAuthority("Admin")
+                .antMatchers(ADMIN_URLS).hasAnyAuthority("ADMIN")
                 //.antMatchers(CUSTOMER).hasAnyAuthority("Customer")
                 //.antMatchers(SERVICE).hasAnyAuthority("Service")
                 .anyRequest()

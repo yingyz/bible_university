@@ -36,8 +36,12 @@ public class UserService implements UserDetailsService {
 
 
     public User saveUser(SignUpRequest signUpRequest) {
-        try {
-            User user = new User();
+            User user = userRepo.findByUsername(signUpRequest.getUsername());
+            if (user != null)
+            {
+                throw new DuplicateAccountException("Username '"+ signUpRequest.getUsername() +"' already exists");
+            }
+            user = new User();
             user.setPassword(bCryptPasswordEncoder.encode(signUpRequest.getPassword()));
             user.setUsername(signUpRequest.getUsername());
             user.setFirstname(signUpRequest.getFirstname());
@@ -53,11 +57,6 @@ public class UserService implements UserDetailsService {
             user.setUserRoles(set);
 
             return userRepo.save(user);
-        } catch (DatabaseNotFoundException e) {
-            throw e;
-        } catch(Exception e) {
-            throw new DuplicateAccountException("Username '"+ signUpRequest.getUsername() +"' already exists");
-        }
     }
 
     public List<User> findAllUsers() {
@@ -85,6 +84,7 @@ public class UserService implements UserDetailsService {
         if(user==null) new UsernameNotFoundException("User not found");
         return user;
     }
+
 
 
 }
